@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "647982779631",
+    "firebase_url": "https://sos-bolivia.firebaseio.com",
+    "project_id": "sos-bolivia",
+    "storage_bucket": "sos-bolivia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647982779631:android:8b67669aa8373a99",
+        "android_client_info": {
+          "package_name": "com.certificacion.dauza.sos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647982779631-bhkn8hmdd6abgf8i3ag1vqhjl0a69b99.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.certificacion.dauza.sos",
+            "certificate_hash": "b0dd317efb5fa11558c55daea762240bc3117f65"
+          }
+        },
+        {
+          "client_id": "647982779631-56ca3qunjg5b1l3e650dg4anf1f647e6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgjUFEU2_EAwjRjTfszFdA2R1tDzf6V5g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647982779631-56ca3qunjg5b1l3e650dg4anf1f647e6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
