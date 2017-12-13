@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button logInButton;
     private Button openRegisterButton;
 
-    //private ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
 
@@ -46,10 +46,10 @@ public class LoginActivity extends AppCompatActivity {
         openRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openRegister();
+                goToRegister();
             }
         });
-        //progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -58,14 +58,14 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        //progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        //progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            goMainScreen();
+                            goToMainScreen();
                         } else {
                             showErrorMessage(task.getException().toString());
                         }
@@ -78,12 +78,13 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Hay error: " + s, Toast.LENGTH_SHORT).show();
     }
 
-    private void goMainScreen() {
+    private void goToMainScreen() {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
-    private void openRegister() {
+    private void goToRegister() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }

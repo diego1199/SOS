@@ -1,26 +1,43 @@
 <resources>
     <string name="app_name">SOS</string>
 
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Mapa</string>
     <string name="pedirServicio">Pedir</string>
     <string name="ubicacion">Ubicación actual</string>
     <string name="cambiar">Cambiar</string>
 
-    <string name="login_email">Email</string>
-    <string name="login_password">Password</string>
-    <string name="login_login">Log In</string>
-    <string name="login_register">Register</string>
+    <string name="login_email">Correo electrónico</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_login">Iniciar sesión</string>
+    <string name="login_register">Registrarse</string>
 
-    <string name="register_email">Email</string>
-    <string name="register_password">Password</string>
-    <string name="register_repeat_password">Repeat password</string>
-    <string name="register_register">Register</string>
+    <string name="register_email">Correo electrónico</string>
+    <string name="register_password">Contraseña</string>
+    <string name="register_repeat_password">Confirmar contraseña</string>
+    <string name="register_register">Registrarse</string>
 
-    <string name="register_first_name">First Name</string>
-    <string name="register_last_name">Last Name </string>
-    <string name="register_height">Height (Cm.)</string>
-    <string name="register_weight">Weight (Kg.)</string>
-    <string name="register_allergies">Allergies</string>
-    <string name="register_blood_group">Blood Group</string>
-    <string name="register_emergency_contacts">Emergency Contacts</string>
+    <string name="register_first_name">Nombre(s)</string>
+    <string name="register_last_name">Apellido(s)</string>
+    <string name="birth_date">Fecha de nacimiento</string>
+    <string name="register_height">Altura (cm.)</string>
+    <string name="register_weight">Peso (kg.)</string>
+    <string name="register_allergies">Alergias</string>
+    <string name="register_blood_group">Grupo sanguíneo</string>
+    <string name="register_emergency_contacts">Contactos de emergencia</string>
+    <string name="informacion_medica">INFORMACIÓN MÉDICA PERSONAL</string>
+    <string name="informacion_general">INFORMACIÓN DE USUARIO</string>
+    <string name="datos_confidenciales">Tus datos seran manejados de manera confidencial con las entidades de salud y emergencias.</string>
+
+    <string-array name="grupos_sanguineos">
+        <item>Sin definir</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>O+</item>
+        <item>O-</item>
+    </string-array>
+
 </resources>

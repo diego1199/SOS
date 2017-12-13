@@ -26,11 +26,17 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
+            android:paddingBottom="16dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:paddingTop="8dp"
+            android:paddingTop="16dp"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/informacion_general"
+                android:textStyle="bold"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -55,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_password"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textVisiblePassword"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -69,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_repeat_password"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textVisiblePassword"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -79,67 +85,104 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingTop="12dp">
+
                 <TextView
+                    android:layout_marginTop="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="INFORMACIÓN MÉDICA PERSONAL"
+                    android:text="@string/informacion_medica"
                     android:textStyle="bold"/>
 
-                <EditText
-                    android:id="@+id/firstNameEditText"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/register_first_name"
-                    android:inputType="text"
-                    android:maxLines="1" />
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/lastNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/register_last_name"
-                    android:inputType="text"
-                    android:maxLines="1" />
+                    <EditText
+                        android:id="@+id/firstNameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/register_first_name"
+                        android:inputType="text"
+                        android:maxLines="1" />
 
-                <EditText
-                    android:id="@+id/heightEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/register_height"
-                    android:maxLines="1" />
-                <!--android:inputType="2"-->
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/weightEditText"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/register_weight"
-                    android:maxLines="1" />
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/lastNameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/register_last_name"
+                        android:inputType="text"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/allergiesEditText"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/register_allergies"
-                    android:inputType="text"
-                    android:maxLines="1" />
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/birthDateEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/birth_date"
+                        android:inputType="date"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/heightEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/register_height"
+                        android:maxLines="1"
+                        android:inputType="numberSigned" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/weightEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/register_weight"
+                        android:inputType="numberSigned"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/allergiesEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/register_allergies"
+                        android:inputType="text"
+                        android:maxLines="5" />
+                </android.support.design.widget.TextInputLayout>
                 <!--> Cambiar a dropdownlist <-->
 
-                <EditText
-                    android:id="@+id/bloodGroupEditText"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/register_blood_group"
-                    android:inputType="text"
-                    android:maxLines="1" />
-                <!--> Considerar cambiar botón <-->
-                <Button
-                    android:id="@+id/emergencyContactsButton"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/register_emergency_contacts"/>
+                    android:text="@string/register_blood_group"
+                    android:textStyle="bold"/>
+
+                <!--<Button-->
+                    <!--android:id="@+id/emergencyContactsButton"-->
+                    <!--style="@style/Widget.AppCompat.Button.Colored"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="16dp"-->
+                    <!--android:text="@string/register_emergency_contacts"/>-->
 
                 <Button
                     android:id="@+id/registerButton"
@@ -147,11 +190,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/register_register"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/datos_confidenciales"
+                    android:textStyle="normal"/>
+
             </LinearLayout>
 
-
         </LinearLayout>
+        
     </ScrollView>
 
 
