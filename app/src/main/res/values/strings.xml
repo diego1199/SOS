@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">SOS</string>
+
+    <string name="title_activity_maps">Map</string>
+    <string name="pedirServicio">Pedir</string>
+    <string name="ubicacion">Ubicación actual</string>
+    <string name="cambiar">Cambiar</string>
+
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_login">Log In</string>
+    <string name="login_register">Register</string>
+
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+    <string name="register_repeat_password">Repeat password</string>
+    <string name="register_register">Register</string>
+
+    <string name="register_first_name">First Name</string>
+    <string name="register_last_name">Last Name </string>
+    <string name="register_height">Height (Cm.)</string>
+    <string name="register_weight">Weight (Kg.)</string>
+    <string name="register_allergies">Allergies</string>
+    <string name="register_blood_group">Blood Group</string>
+    <string name="register_emergency_contacts">Emergency Contacts</string>
 </resources>
