@@ -27,6 +27,7 @@
     <string name="informacion_medica">INFORMACIÓN MÉDICA PERSONAL</string>
     <string name="informacion_general">INFORMACIÓN DE USUARIO</string>
     <string name="datos_confidenciales">Tus datos seran manejados de manera confidencial con las entidades de salud y emergencias.</string>
+    <string name="error_location_provider">Fallo al obtener la ubicación actual</string>
 
     <string-array name="grupos_sanguineos">
         <item>Sin definir</item>

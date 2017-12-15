@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 //import android.widget.ProgressBar;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,11 +28,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText heightEditText;
     private EditText weightEditText;
     private EditText allergiesEditText;
-    private EditText bloodGroupEditText;
-    private Button emergencyContactsButton;
+    private Spinner bloodGroupSpinner;
     private Button registerButton;
 
-    //private ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
 
@@ -38,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-//variables para el login
+
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         repeatPasswordEditText = (EditText) findViewById(R.id.repeatPasswordEditText);
@@ -49,20 +50,14 @@ public class RegisterActivity extends AppCompatActivity {
                 register();
             }
         });
-//variables de la ficha médica
+
+
         firstNameEditText  = (EditText) findViewById(R.id.firstNameEditText);
         lastNameEditText  = (EditText) findViewById(R.id.lastNameEditText);
         heightEditText  = (EditText) findViewById(R.id.heightEditText);
         weightEditText = (EditText) findViewById(R.id.weightEditText);
         allergiesEditText = (EditText) findViewById(R.id.allergiesEditText);
-        bloodGroupEditText = (EditText) findViewById(R.id.bloodGroupEditText);
-        emergencyContactsButton = (Button) findViewById(R.id.emergencyContactsButton);
-        emergencyContactsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //implementar goEmergencyContacts();
-            }
-        });
+        bloodGroupSpinner = (Spinner) findViewById(R.id.bloodGroupSpinner);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +65,8 @@ public class RegisterActivity extends AppCompatActivity {
                 register();
             }
         });
-        //progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -80,14 +75,14 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        //progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        //progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            goLogIn();
+                            goToMainScreen();
                         } else {
                             showErrorMessage(task.getException().toString());
                         }
@@ -105,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void goToMainScreen() {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }

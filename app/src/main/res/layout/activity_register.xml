@@ -36,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/informacion_general"
+                android:layout_marginBottom="8dp"
                 android:textStyle="bold"/>
 
             <android.support.design.widget.TextInputLayout
@@ -61,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_password"
-                    android:inputType="textVisiblePassword"
+                    android:inputType="textPassword"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -75,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/register_repeat_password"
-                    android:inputType="textVisiblePassword"
+                    android:inputType="textPassword"
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
@@ -169,20 +170,19 @@
                 <!--> Cambiar a dropdownlist <-->
 
                 <TextView
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/register_blood_group"
                     android:textStyle="bold"/>
 
-                <!--<Button-->
-                    <!--android:id="@+id/emergencyContactsButton"-->
-                    <!--style="@style/Widget.AppCompat.Button.Colored"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--android:text="@string/register_emergency_contacts"/>-->
+                <Spinner
+                    android:id="@+id/bloodGroupSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:entries="@array/grupos_sanguineos"
+                    android:prompt="@string/register_blood_group"/>
 
                 <Button
                     android:id="@+id/registerButton"
@@ -202,7 +202,7 @@
             </LinearLayout>
 
         </LinearLayout>
-        
+
     </ScrollView>
 
 
