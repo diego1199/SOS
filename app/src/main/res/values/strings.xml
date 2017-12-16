@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SOS</string>
 
-    <string name="title_activity_maps">Mapa</string>
+    <string name="title_activity_maps">SOS</string>
     <string name="pedirServicio">Pedir</string>
     <string name="ubicacion">Ubicación actual</string>
     <string name="cambiar">Cambiar</string>
@@ -29,6 +29,11 @@
     <string name="datos_confidenciales">Tus datos seran manejados de manera confidencial con las entidades de salud y emergencias.</string>
     <string name="error_location_provider">Fallo al obtener la ubicación actual</string>
 
+    <string name="pedir_ambulancia">Pedir ambulancia</string>
+    <string name="pedir_policia">Pedir policia</string>
+    <string name="pedir_bomberos">Pedir bomberos</string>
+    <string name="choose_service_type">Elige el servicio que deseas solicitar</string>
+
     <string-array name="grupos_sanguineos">
         <item>Sin definir</item>
         <item>A+</item>
@@ -39,6 +44,12 @@
         <item>AB-</item>
         <item>O+</item>
         <item>O-</item>
+    </string-array>
+
+    <string-array name="tipos_de_servicio">
+        <item>Ambulancia</item>
+        <item>Policia</item>
+        <item>Bomberos</item>
     </string-array>
 
 </resources>

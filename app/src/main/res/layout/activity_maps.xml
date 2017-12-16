@@ -1,4 +1,4 @@
-<LinearLayout
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,41 +10,69 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_height="match_parent"
         tools:context="com.certificacion.dauza.sos.MapsActivity" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <Button style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/requestButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:textSize="20sp"
+        android:padding="14dp"
+        android:text="@string/pedir_ambulancia" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/changeServiceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@android:drawable/stat_notify_sync" />
+
+    <Spinner
+        android:id="@+id/serviceTypeSpinner"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_alignLeft="@+id/changeServiceButton"
+        android:layout_alignRight="@+id/changeServiceButton"
+        android:layout_alignTop="@+id/changeServiceButton"
+        android:layout_alignBottom="@+id/changeServiceButton"
+        android:entries="@array/tipos_de_servicio"
+        android:prompt="@string/choose_service_type"/>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/ubicacion"
-            android:textColor="#FFFFFF"
-            android:background="#0000FF"/>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:orientation="horizontal">-->
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="@string/pedirServicio"
-            android:textColor="#FFFFFF"
-            android:background="#FF0000"/>
+       <!---->
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/cambiar"
-            android:textColor="#FFFFFF"
-            android:background="#0000FF"/>
+        <!--<Button-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="2"-->
+            <!--android:text="@string/pedirServicio"-->
+            <!--android:textColor="#FFFFFF"-->
+            <!--android:background="#FF0000"/>-->
 
-    </LinearLayout>
+        <!--<Button-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/cambiar"-->
+            <!--android:textColor="#FFFFFF"-->
+            <!--android:background="#0000FF"/>-->
+
+    <!--</LinearLayout>-->
 
 
-</LinearLayout>
+</RelativeLayout>

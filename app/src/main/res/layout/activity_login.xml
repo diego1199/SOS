@@ -45,7 +45,9 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:focusedByDefault="false"
+                android:focusableInTouchMode="false">
 
                 <EditText
                     android:id="@+id/emailEditText"

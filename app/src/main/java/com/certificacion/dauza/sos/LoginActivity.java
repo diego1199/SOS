@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.certificacion.dauza.sos.Helpers.UserInterfaceHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,12 +60,12 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        progressBar.setVisibility(View.VISIBLE);
+        UserInterfaceHelper.showLoading(progressBar, getWindow());
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
+                        UserInterfaceHelper.dismissLoading(progressBar, getWindow());
                         if (task.isSuccessful()) {
                             goToMainScreen();
                         } else {
@@ -75,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void showErrorMessage(String s) {
-        Toast.makeText(getApplicationContext(), "Hay error: " + s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Hubo un error: " + s + "Intenta de nuevo.", Toast.LENGTH_SHORT).show();
     }
 
     private void goToMainScreen() {

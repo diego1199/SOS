@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.certificacion.dauza.sos.Helpers.UserInterfaceHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -75,12 +76,12 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        progressBar.setVisibility(View.VISIBLE);
+        UserInterfaceHelper.showLoading(progressBar, getWindow());
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
+                        UserInterfaceHelper.dismissLoading(progressBar, getWindow());
                         if (task.isSuccessful()) {
                             goToMainScreen();
                         } else {
