@@ -33,6 +33,12 @@
     <string name="pedir_policia">Pedir policia</string>
     <string name="pedir_bomberos">Pedir bomberos</string>
     <string name="choose_service_type">Elige el servicio que deseas solicitar</string>
+    <string name="request_comments">Descripción (Opcional)</string>
+    <string name="sameAsCurrentUser">Usuario actual es el que solicita el servicio</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="request_confirmation">El servicio de emergencia sera dirigido a tu ubicación lo antes posible.</string>
+    <string name="request_save_error">Hubo un problema al enviar la solicitud. Intenta de nuevo</string>
+    <string name="loading">Cargando</string>
 
     <string-array name="grupos_sanguineos">
         <item>Sin definir</item>

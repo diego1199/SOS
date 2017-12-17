@@ -1,10 +1,12 @@
 package com.certificacion.dauza.sos;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 //import android.widget.ProgressBar;
@@ -52,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
         firstNameEditText  = (EditText) findViewById(R.id.firstNameEditText);
         lastNameEditText  = (EditText) findViewById(R.id.lastNameEditText);
         heightEditText  = (EditText) findViewById(R.id.heightEditText);
@@ -73,6 +74,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register() {
+
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (null != this.getCurrentFocus())
+            imm.hideSoftInputFromWindow(this.getCurrentFocus()
+                    .getApplicationWindowToken(), 0);
+
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
@@ -93,10 +100,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void showErrorMessage(String s) {
         Toast.makeText(getApplicationContext(), "Se detectó un error: " + s, Toast.LENGTH_LONG).show();
-    }
-
-    private void goLogIn() {
-        finish();
     }
 
     private void goToMainScreen() {

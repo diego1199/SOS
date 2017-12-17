@@ -1,12 +1,14 @@
 package com.certificacion.dauza.sos;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -48,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         openRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToRegister();
+                goToRegisterScreen();
             }
         });
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -57,6 +59,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logIn() {
+
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (null != this.getCurrentFocus())
+            imm.hideSoftInputFromWindow(this.getCurrentFocus()
+                    .getApplicationWindowToken(), 0);
+
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
@@ -86,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void goToRegister() {
+    private void goToRegisterScreen() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }

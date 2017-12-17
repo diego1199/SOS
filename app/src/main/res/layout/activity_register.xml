@@ -167,7 +167,6 @@
                         android:inputType="text"
                         android:maxLines="5" />
                 </android.support.design.widget.TextInputLayout>
-                <!--> Cambiar a dropdownlist <-->
 
                 <TextView
                     android:layout_marginTop="12dp"

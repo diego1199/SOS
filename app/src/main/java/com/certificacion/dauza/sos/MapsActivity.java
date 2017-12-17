@@ -31,7 +31,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -39,9 +41,30 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
 
     public enum EmergencyServiceType {
-        AMBULANCE,
-        POLICE,
-        FIREFIGHTER
+        AMBULANCE(0),
+        POLICE(1),
+        FIREFIGHTER(2);
+
+        private int value;
+        private static Map map = new HashMap<>();
+
+        EmergencyServiceType(int value) {
+            this.value = value;
+        }
+
+        static {
+            for (EmergencyServiceType serviceType : EmergencyServiceType.values()) {
+                map.put(serviceType.value, serviceType);
+            }
+        }
+
+        public static EmergencyServiceType valueOf(int pageType) {
+            return (EmergencyServiceType) map.get(pageType);
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -60,8 +83,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private String[] locationPerms;
 
-    private double longitud;
-    private double latitud;
+    private double longitude;
+    private double latitude;
 
     private FloatingActionButton changeServiceButton;
     private Button requestButton;
@@ -96,7 +119,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(TAG, "Pedir servicio en " + longitud + ", " + latitud);
+                Log.e(TAG, "Pedir servicio en " + longitude + ", " + latitude);
+                goToRequestScreen();
             }
         });
 
@@ -205,8 +229,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public void onLocationChanged(Location location) {
             if (location != null) {
                 drawMarker(location);
-                latitud = location.getLatitude();
-                longitud = location.getLongitude();
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
                 //mLocationManager.removeUpdates(mLocationListener);
             } else {
             }
@@ -263,8 +287,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, mLocationListener);
                     location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 }
-//                latitud = location.getLatitude();
-//                longitud = location.getLongitude();
+//                latitude = location.getLatitude();
+//                longitude = location.getLongitude();
             }
             else {
                 EasyPermissions.requestPermissions(this, "SOS no tiene permisos de tu ubicación.", RC_ALL_PERMISSIONS_REQUIRED, locationPerms);
@@ -318,4 +342,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //endregion
+
+    private void goToRequestScreen() {
+        Intent intent = new Intent(context, EmergencyRequestActivity.class);
+        intent.putExtra("latitude", latitude);
+        intent.putExtra("longitude", longitude);
+        intent.putExtra("serviceType", selectedEmergencyType.getValue());
+        startActivity(intent);
+    }
 }
