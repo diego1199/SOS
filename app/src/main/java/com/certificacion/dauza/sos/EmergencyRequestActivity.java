@@ -37,7 +37,7 @@ public class EmergencyRequestActivity extends AppCompatActivity {
     private Switch sameAsCurrentUserSwitch;
     private EditText commentsEditText;
     private Button confirmationButton;
-    private ProgressBar progressBar;
+
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
@@ -49,7 +49,6 @@ public class EmergencyRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency_request);
 
-        progressBar = findViewById(R.id.progressBar);
         sameAsCurrentUserSwitch = findViewById(R.id.sameAsCurrentUserSwitch);
         commentsEditText = findViewById(R.id.commentsEditText);
         confirmationButton = findViewById(R.id.confirmationButton);

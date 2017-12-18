@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -32,9 +33,8 @@ import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
+import java.util.Locale;
 
 import static com.certificacion.dauza.sos.Helpers.Constant.MEDICAL_RECORDS_COLLECTION_NAME;
 import static com.certificacion.dauza.sos.Helpers.Constant.MEDICAL_RECORD_ID_SP_KEY;
@@ -61,10 +61,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Context context;
 
+    public boolean userWasCreated;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        userWasCreated = sharedPref.getBoolean(USER_AUTH_COMPLETED_SP_KEY, false);
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -73,7 +78,12 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                register();
+                if (userWasCreated) {
+                    saveNewUserMedicalRecord(firebaseAuth.getCurrentUser().getUid());
+                }
+                else {
+                    register();
+                }
             }
         });
 
@@ -99,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(this.getCurrentFocus()
                     .getApplicationWindowToken(), 0);
 
-        String email = emailEditText.getText().toString();
+        final String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
         final SweetAlertDialog loadingAlert = UserInterfaceHelper.showLoadingAlert(this);
@@ -109,8 +119,9 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         loadingAlert.dismiss();
                         if (task.isSuccessful()) {
+                            userWasCreated = true;
+                            disableUserEdit();
                             saveNewUserMedicalRecord(firebaseAuth.getCurrentUser().getUid());
-                            //goToMainScreen();
                         } else {
                             showErrorMessage(task.getException().toString());
                         }
@@ -136,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
         double weight = Double.parseDouble(weightEditText.getText().toString());
         String allergies = allergiesEditText.getText().toString();
         String bloodType = bloodGroupSpinner.getSelectedItem().toString();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("DD/MM/YYYY");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         boolean authCompleted = true;
         try {
             Date d = dateFormat.parse(birthdateEditText.getText().toString());
@@ -172,5 +183,16 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void disableUserEdit() {
+        emailEditText.setEnabled(false);
+        emailEditText.setInputType(InputType.TYPE_NULL);
+
+        passwordEditText.setEnabled(false);
+        passwordEditText.setInputType(InputType.TYPE_NULL);
+
+        repeatPasswordEditText.setEnabled(false);
+        repeatPasswordEditText.setInputType(InputType.TYPE_NULL);
     }
 }
