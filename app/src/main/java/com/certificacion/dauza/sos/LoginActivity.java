@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         loadingAlert.dismiss();
                         if (task.isSuccessful()) {
+                            //TODO retrieve medical record id
                             goToMainScreen();
                         } else {
                             showErrorMessage(task.getException().toString());
