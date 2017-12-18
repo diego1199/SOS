@@ -39,6 +39,7 @@
     <string name="request_confirmation">El servicio de emergencia sera dirigido a tu ubicación lo antes posible.</string>
     <string name="request_save_error">Hubo un problema al enviar la solicitud. Intenta de nuevo</string>
     <string name="loading">Cargando</string>
+    <string name="invalid_email_address">El correo electrónico es invalido.</string>
 
     <string-array name="grupos_sanguineos">
         <item>Sin definir</item>

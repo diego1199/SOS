@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.certificacion.dauza.sos.Helpers.DataHelper;
+import com.certificacion.dauza.sos.Models.Validation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button openRegisterButton;
 
     private FirebaseAuth firebaseAuth;
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        context = this;
     }
 
     private void logIn() {
@@ -66,6 +72,9 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
+        if (!validations()) {
+            return;
+        }
         final SweetAlertDialog loadingAlert = UserInterfaceHelper.showLoadingAlert(this);
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -75,15 +84,10 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             goToMainScreen();
                         } else {
-                            showErrorMessage(task.getException().toString());
+                            UserInterfaceHelper.showErrorAlert(context, "Oops", "No se pudo iniciar sesión. Intenta de nuevo.");
                         }
                     }
                 });
-    }
-
-
-    private void showErrorMessage(String s) {
-        Toast.makeText(getApplicationContext(), "Hubo un error: " + s + "Intenta de nuevo.", Toast.LENGTH_SHORT).show();
     }
 
     private void goToMainScreen() {
@@ -95,5 +99,24 @@ public class LoginActivity extends AppCompatActivity {
     private void goToRegisterScreen() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    private boolean validations() {
+
+        boolean isValid = true;
+
+        Validation emailValidation = DataHelper.isEmail(emailEditText);
+        if (!emailValidation.valid) {
+            //UserInterfaceHelper.showErrorAlert(context, "Oops", emailValidation.message);
+            isValid = emailValidation.valid;
+        }
+
+        Validation passwordMinLengthValidation = DataHelper.passwordMinLength(passwordEditText);
+        if (!passwordMinLengthValidation.valid) {
+            //UserInterfaceHelper.showErrorAlert(context, "Oops", passwordMinLengthValidation.message);
+            isValid = passwordMinLengthValidation.valid;
+        }
+
+        return isValid;
     }
 }
