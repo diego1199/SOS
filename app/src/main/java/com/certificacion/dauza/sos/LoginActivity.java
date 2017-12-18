@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.certificacion.dauza.sos.Helpers.UserInterfaceHelper;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,8 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private Button logInButton;
     private Button openRegisterButton;
-
-    private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
 
@@ -53,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
                 goToRegisterScreen();
             }
         });
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         firebaseAuth = FirebaseAuth.getInstance();
     }
@@ -68,12 +66,12 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        UserInterfaceHelper.showLoading(progressBar, getWindow());
+        final SweetAlertDialog loadingAlert = UserInterfaceHelper.showLoadingAlert(this);
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        UserInterfaceHelper.dismissLoading(progressBar, getWindow());
+                        loadingAlert.dismiss();
                         if (task.isSuccessful()) {
                             goToMainScreen();
                         } else {

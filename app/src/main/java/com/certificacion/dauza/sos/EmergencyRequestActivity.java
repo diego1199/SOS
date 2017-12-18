@@ -2,6 +2,8 @@ package com.certificacion.dauza.sos;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,9 +24,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.certificacion.dauza.sos.Helpers.Constant.MEDICAL_RECORD_ID_SP_KEY;
 
 public class EmergencyRequestActivity extends AppCompatActivity {
 
@@ -68,7 +73,7 @@ public class EmergencyRequestActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(this.getCurrentFocus()
                     .getApplicationWindowToken(), 0);
 
-        UserInterfaceHelper.showLoadingAlert(context);
+        final SweetAlertDialog loadingAlert = UserInterfaceHelper.showLoadingAlert(context);
 
         Intent intent = getIntent();
         String userId = firebaseAuth.getCurrentUser().getUid();
@@ -79,25 +84,33 @@ public class EmergencyRequestActivity extends AppCompatActivity {
         String comments = commentsEditText.getText().toString();
         String medicalRedcordId = null;
         if (sameAsCurrentUser) {
-            medicalRedcordId = "ss3gbxW42fs";
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            medicalRedcordId = sharedPref.getString(MEDICAL_RECORD_ID_SP_KEY, null);
         }
 
         CollectionReference requests = db.collection("requests");
         EmergencyServiceRequest newRequest = new EmergencyServiceRequest(serviceType, latitude, longitude, userId, medicalRedcordId, sameAsCurrentUser, comments);
-
         requests.add(newRequest)
         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                UserInterfaceHelper.showSuccessAlert(context, "Servicio de emergencia en camino", "Espera en tu ubicación");
-                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                loadingAlert.dismiss();
+                SweetAlertDialog successAlert = UserInterfaceHelper.showSuccessAlert(context, "SOS en camino", "Espera en tu ubicación");
+                successAlert.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                         @Override
+                                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                             sweetAlertDialog.dismiss();
+                                                             finish();
+                                                         }
+                                                     });
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
             }
         })
         .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                loadingAlert.dismiss();
                 UserInterfaceHelper.showErrorAlert(context, "Oops", "Hubo un problema al solicitar el servicio. Intenta de nuevo.");
-                Toast.makeText(context, getString(R.string.request_save_error), Toast.LENGTH_SHORT);
                 Log.w(TAG, "Error writing document", e);
             }
         });

@@ -18,7 +18,7 @@
 
     <string name="register_first_name">Nombre(s)</string>
     <string name="register_last_name">Apellido(s)</string>
-    <string name="birth_date">Fecha de nacimiento</string>
+    <string name="birth_date">Fecha de nacimiento (DD/MM/YYYY)</string>
     <string name="register_height">Altura (cm.)</string>
     <string name="register_weight">Peso (kg.)</string>
     <string name="register_allergies">Alergias</string>
