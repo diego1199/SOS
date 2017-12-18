@@ -45,7 +45,7 @@ public class DataHelper {
             return new Validation(true, "");
         }
         else {
-            String message = componentName + " no puede estar vacío";
+            String message = componentName + " no puede estar vacío.";
             component.requestFocus();
             component.setError(message);
             return new Validation(false, message);
@@ -96,9 +96,11 @@ public class DataHelper {
                 return new Validation(true, "");
             }
             else {
-                String message = componentName1 + " y " + componentName2 + " no coincide.";
+                String message = componentName1 + " y " + componentName2 + " no coinciden.";
                 component1.requestFocus();
+                component1.setText("");
                 component1.setError(message);
+                component2.setText("");
                 component2.setError(message);
                 return new Validation(false, message);
             }
@@ -110,7 +112,7 @@ public class DataHelper {
             return new Validation(true, "");
         }
         else {
-            String message = "La contraseña debe tener al menos 7 caractéres";
+            String message = "La contraseña debe tener al menos 7 caractéres.";
             component.requestFocus();
             component.setError(message);
             return new Validation(false, message);

@@ -18,8 +18,10 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.certificacion.dauza.sos.Helpers.DataHelper;
 import com.certificacion.dauza.sos.Helpers.UserInterfaceHelper;
 import com.certificacion.dauza.sos.Models.MedicalRecord;
+import com.certificacion.dauza.sos.Models.Validation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,6 +61,8 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
+    private Date birthdate;
+
     private Context context;
 
     public boolean userWasCreated;
@@ -67,6 +71,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        context = this;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         userWasCreated = sharedPref.getBoolean(USER_AUTH_COMPLETED_SP_KEY, false);
@@ -98,11 +104,13 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        context = this;
-
     }
 
     private void register() {
+
+        if (!validations()) {
+            return;
+        }
 
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (null != this.getCurrentFocus())
@@ -147,19 +155,12 @@ public class RegisterActivity extends AppCompatActivity {
         double weight = Double.parseDouble(weightEditText.getText().toString());
         String allergies = allergiesEditText.getText().toString();
         String bloodType = bloodGroupSpinner.getSelectedItem().toString();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         boolean authCompleted = true;
-        try {
-            Date d = dateFormat.parse(birthdateEditText.getText().toString());
-        } catch (ParseException e) {
-            UserInterfaceHelper.showErrorAlert(context, "Oops", "No es una fecha valida. Intenta de nuevo");
-            return;
-        }
 
         final SweetAlertDialog loadingAlert = UserInterfaceHelper.showLoadingAlert(this);
 
         CollectionReference medicalRecords = db.collection(MEDICAL_RECORDS_COLLECTION_NAME);
-        MedicalRecord newMedicalRecord = new MedicalRecord(firstName, lastName, weight, height, allergies, bloodType, userId, authCompleted);
+        MedicalRecord newMedicalRecord = new MedicalRecord(firstName, lastName, birthdate, weight, height, allergies, bloodType, userId, authCompleted);
         medicalRecords.add(newMedicalRecord)
         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -185,6 +186,20 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    private Date getBirthDate() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+
+        try {
+            return dateFormat.parse(birthdateEditText.getText().toString());
+        } catch (ParseException e) {
+            birthdateEditText.requestFocus();
+            birthdateEditText.setError("Fecha invalida. La fecha debe estar en el formato dd/MM/yyyy.");
+            return null;
+        }
+
+    }
+
     private void disableUserEdit() {
         emailEditText.setEnabled(false);
         emailEditText.setInputType(InputType.TYPE_NULL);
@@ -195,4 +210,49 @@ public class RegisterActivity extends AppCompatActivity {
         repeatPasswordEditText.setEnabled(false);
         repeatPasswordEditText.setInputType(InputType.TYPE_NULL);
     }
+
+    private boolean validations() {
+
+        //Validations from bottom to top. Because we need to focus the first text edit error before any other errors.
+
+        boolean isValid = true;
+
+        if (bloodGroupSpinner.getSelectedItemPosition() == 0) {
+            isValid = false;
+            UserInterfaceHelper.showErrorAlert(context, "Oops", "Debes seleccionar tu grupo sanguíneo");
+        }
+
+        Validation allergiesValidation = DataHelper.isNotEmpty("Alergias", allergiesEditText);
+        isValid = isValid && allergiesValidation.valid;
+
+        Validation weightValidation = DataHelper.isNotEmpty("Peso", weightEditText);
+        isValid = isValid && weightValidation.valid;
+
+        Validation heightValidation = DataHelper.isNotEmpty("Altura", heightEditText);
+        isValid = isValid && heightValidation.valid;
+
+        // Getting birthdate here because using Date is expensive to do it twice.
+        birthdate = getBirthDate();
+        if (birthdate == null) {
+            isValid = false;
+        }
+
+        Validation lastNameValidation = DataHelper.onlyHasLetters("Apellido(s)", lastNameEditText);
+        isValid = isValid && lastNameValidation.valid;
+
+        Validation firstNameValidation = DataHelper.onlyHasLetters("Nombre(s)", firstNameEditText);
+        isValid = isValid && firstNameValidation.valid;
+
+        Validation samePasswordRepeatValidation = DataHelper.textMatches("Contraseña", passwordEditText, "Confirmar contraseña", repeatPasswordEditText);
+        isValid = isValid && samePasswordRepeatValidation.valid;
+
+        Validation passwordMinLengthValidation = DataHelper.passwordMinLength(passwordEditText);
+        isValid = isValid && passwordMinLengthValidation.valid;
+
+        Validation emailValidation = DataHelper.isEmail(emailEditText);
+        isValid = isValid && emailValidation.valid;
+
+        return isValid;
+    }
+
 }

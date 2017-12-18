@@ -104,18 +104,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validations() {
 
-        boolean isValid = true;
+        //Validations from bottom to top. Because we need to focus the first text edit error before any other errors.
 
-        Validation emailValidation = DataHelper.isEmail(emailEditText);
-        if (!emailValidation.valid) {
-            //UserInterfaceHelper.showErrorAlert(context, "Oops", emailValidation.message);
-            isValid = emailValidation.valid;
-        }
+        boolean isValid = true;
 
         Validation passwordMinLengthValidation = DataHelper.passwordMinLength(passwordEditText);
         if (!passwordMinLengthValidation.valid) {
-            //UserInterfaceHelper.showErrorAlert(context, "Oops", passwordMinLengthValidation.message);
-            isValid = passwordMinLengthValidation.valid;
+            isValid = isValid && passwordMinLengthValidation.valid;
+        }
+
+        Validation emailValidation = DataHelper.isEmail(emailEditText);
+        if (!emailValidation.valid) {
+            isValid = isValid && emailValidation.valid;
         }
 
         return isValid;
