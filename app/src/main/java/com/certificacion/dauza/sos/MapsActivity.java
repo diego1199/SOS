@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.Manifest;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,7 +45,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import static com.certificacion.dauza.sos.Helpers.Constant.MEDICAL_RECORD_ID_SP_KEY;
 import static com.certificacion.dauza.sos.Helpers.Constant.USER_ALREADY_CREATED_IE_KEY;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
 
     public enum EmergencyServiceType {
         AMBULANCE(0),
@@ -197,7 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             else {
                 FirebaseMessaging.getInstance().subscribeToTopic(firebaseUser.getUid());
-                Log.e(TAG, firebaseUser.getUid());
+                //Log.e(TAG, firebaseUser.getUid());
             }
         }
     }

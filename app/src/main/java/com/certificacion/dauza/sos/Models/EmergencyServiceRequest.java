@@ -17,13 +17,14 @@ public class EmergencyServiceRequest {
     public String medicalRecordId;
     public boolean sameAsCurrentUser;
     public String comments;
-    public Long dateOfService;
+    public Long requestDate;
+    public String deviceToken;
 
     public EmergencyServiceRequest(){
 
     }
 
-    public EmergencyServiceRequest(int emergencyServiceType, double latitude, double longitude, String userId, String medicalRecordId, boolean sameAsCurrentUser, String comments, Long date) {
+    public EmergencyServiceRequest(int emergencyServiceType, double latitude, double longitude, String userId, String medicalRecordId, boolean sameAsCurrentUser, String comments, Long date, String deviceToken) {
         this.emergencyServiceType = emergencyServiceType;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -31,7 +32,8 @@ public class EmergencyServiceRequest {
         this.medicalRecordId = medicalRecordId;
         this.sameAsCurrentUser = sameAsCurrentUser;
         this.comments = comments;
-        this.dateOfService = date;
+        this.requestDate = date;
+        this.deviceToken = deviceToken;
     }
 
     public int getEmergencyServiceType() {
@@ -59,10 +61,58 @@ public class EmergencyServiceRequest {
     }
 
     public Long getDateOfService() {
-        return dateOfService;
+        return requestDate;
     }
 
     public void setDateOfService(Long dateOfService) {
-        this.dateOfService = dateOfService;
+        this.requestDate = dateOfService;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getMedicalRecordId() {
+        return medicalRecordId;
+    }
+
+    public void setMedicalRecordId(String medicalRecordId) {
+        this.medicalRecordId = medicalRecordId;
+    }
+
+    public boolean isSameAsCurrentUser() {
+        return sameAsCurrentUser;
+    }
+
+    public void setSameAsCurrentUser(boolean sameAsCurrentUser) {
+        this.sameAsCurrentUser = sameAsCurrentUser;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public Long getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(Long requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

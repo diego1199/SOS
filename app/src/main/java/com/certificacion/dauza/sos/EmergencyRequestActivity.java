@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import java.util.HashMap;
@@ -88,7 +89,7 @@ public class EmergencyRequestActivity extends AppCompatActivity {
         }
         long date = System.currentTimeMillis();
         CollectionReference requests = db.collection("requests");
-        EmergencyServiceRequest newRequest = new EmergencyServiceRequest(serviceType, latitude, longitude, userId, medicalRedcordId, sameAsCurrentUser, comments, date);
+        EmergencyServiceRequest newRequest = new EmergencyServiceRequest(serviceType, latitude, longitude, userId, medicalRedcordId, sameAsCurrentUser, comments, date, FirebaseInstanceId.getInstance().getToken());
         requests.add(newRequest)
         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
