@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +41,7 @@ import java.util.Locale;
 
 import static com.certificacion.dauza.sos.Helpers.Constant.MEDICAL_RECORDS_COLLECTION_NAME;
 import static com.certificacion.dauza.sos.Helpers.Constant.MEDICAL_RECORD_ID_SP_KEY;
+import static com.certificacion.dauza.sos.Helpers.Constant.USER_ALREADY_CREATED_IE_KEY;
 import static com.certificacion.dauza.sos.Helpers.Constant.USER_AUTH_COMPLETED_SP_KEY;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -74,13 +76,26 @@ public class RegisterActivity extends AppCompatActivity {
 
         context = this;
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        userWasCreated = sharedPref.getBoolean(USER_AUTH_COMPLETED_SP_KEY, false);
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         repeatPasswordEditText = (EditText) findViewById(R.id.repeatPasswordEditText);
         registerButton = (Button) findViewById(R.id.registerButton);
+
+        Intent intent = getIntent();
+        if (intent.hasExtra(USER_ALREADY_CREATED_IE_KEY)) {
+            userWasCreated = true;
+            disableUserEdit();
+            emailEditText.setText(firebaseAuth.getCurrentUser().getEmail());
+            passwordEditText.setText("•••••••••");
+            repeatPasswordEditText.setText("•••••••••");
+        }
+        else {
+            userWasCreated = false;
+        }
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,9 +115,6 @@ public class RegisterActivity extends AppCompatActivity {
         weightEditText = (EditText) findViewById(R.id.weightEditText);
         allergiesEditText = (EditText) findViewById(R.id.allergiesEditText);
         bloodGroupSpinner = (Spinner) findViewById(R.id.bloodGroupSpinner);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
     }
 
@@ -128,17 +140,14 @@ public class RegisterActivity extends AppCompatActivity {
                         loadingAlert.dismiss();
                         if (task.isSuccessful()) {
                             userWasCreated = true;
+                            registerButton.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) { saveNewUserMedicalRecord(firebaseAuth.getCurrentUser().getUid());}});
                             disableUserEdit();
                             saveNewUserMedicalRecord(firebaseAuth.getCurrentUser().getUid());
                         } else {
-                            showErrorMessage(task.getException().toString());
+                            UserInterfaceHelper.showErrorAlert(context, "Oops", "No se pudo registrar el usuario. Intente de nuevo.");
                         }
                     }
                 });
-    }
-
-    private void showErrorMessage(String s) {
-        Toast.makeText(getApplicationContext(), "Se detectó un error: " + s, Toast.LENGTH_LONG).show();
     }
 
     private void goToMainScreen() {
@@ -148,6 +157,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveNewUserMedicalRecord(String userId) {
+
+        if (!validations()) {
+            return;
+        }
 
         String firstName = firstNameEditText.getText().toString();
         String lastName = lastNameEditText.getText().toString();
@@ -169,7 +182,6 @@ public class RegisterActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(MEDICAL_RECORD_ID_SP_KEY, documentReference.getId());
-                editor.putBoolean(USER_AUTH_COMPLETED_SP_KEY, true);
                 editor.apply();
                 loadingAlert.dismiss();
                 goToMainScreen();
@@ -179,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 loadingAlert.dismiss();
-                UserInterfaceHelper.showErrorAlert(context, "Oops", "Hubo un problema al crear el usuario. Intenta de nuevo.");
+                UserInterfaceHelper.showErrorAlert(context, "Oops", "No se pudo registrar el usuario. Intente de nuevo.");
                 Log.w(TAG, "Error writing document", e);
             }
         });
@@ -243,14 +255,16 @@ public class RegisterActivity extends AppCompatActivity {
         Validation firstNameValidation = DataHelper.onlyHasLetters("Nombre(s)", firstNameEditText);
         isValid = isValid && firstNameValidation.valid;
 
-        Validation samePasswordRepeatValidation = DataHelper.textMatches("Contraseña", passwordEditText, "Confirmar contraseña", repeatPasswordEditText);
-        isValid = isValid && samePasswordRepeatValidation.valid;
+        if (!userWasCreated) {
+            Validation samePasswordRepeatValidation = DataHelper.textMatches("Contraseña", passwordEditText, "Confirmar contraseña", repeatPasswordEditText);
+            isValid = isValid && samePasswordRepeatValidation.valid;
 
-        Validation passwordMinLengthValidation = DataHelper.passwordMinLength(passwordEditText);
-        isValid = isValid && passwordMinLengthValidation.valid;
+            Validation passwordMinLengthValidation = DataHelper.passwordMinLength(passwordEditText);
+            isValid = isValid && passwordMinLengthValidation.valid;
 
-        Validation emailValidation = DataHelper.isEmail(emailEditText);
-        isValid = isValid && emailValidation.valid;
+            Validation emailValidation = DataHelper.isEmail(emailEditText);
+            isValid = isValid && emailValidation.valid;
+        }
 
         return isValid;
     }

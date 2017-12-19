@@ -3,10 +3,12 @@ package com.certificacion.dauza.sos;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +40,9 @@ import java.util.Map;
 
 import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.AfterPermissionGranted;
+
+import static com.certificacion.dauza.sos.Helpers.Constant.MEDICAL_RECORD_ID_SP_KEY;
+import static com.certificacion.dauza.sos.Helpers.Constant.USER_ALREADY_CREATED_IE_KEY;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
 
@@ -105,13 +111,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        context = this;
+
         verifyCurrentUser();
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         setContentView(R.layout.activity_maps);
-
-        context = this;
 
         methodRequiresPermissions();
 
@@ -183,11 +189,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (firebaseUser == null) {
             goLogInScreen();
         }
+        else {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            String medicalRecordId = sharedPref.getString(MEDICAL_RECORD_ID_SP_KEY, null);
+            if (medicalRecordId == null) {
+                goToRegisterScreen();
+            }
+            else {
+                FirebaseMessaging.getInstance().subscribeToTopic(firebaseUser.getUid());
+            }
+        }
     }
 
     private void goLogInScreen() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void goToRegisterScreen() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(USER_ALREADY_CREATED_IE_KEY, true);
         startActivity(intent);
     }
 
