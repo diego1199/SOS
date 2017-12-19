@@ -68,7 +68,6 @@ public class ServiceHistoryActivity extends AppCompatActivity {
                                 String typeOfService = document.getString("typeOfService");
                                 String date = document.getString("date");
 
-
                                 EmergencyServiceRequest c = new EmergencyServiceRequest();
 
                                 requestsHelper.addEmergencyServiceRequest(c);
