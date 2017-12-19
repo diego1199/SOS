@@ -112,7 +112,7 @@ public class DataHelper {
             return new Validation(true, "");
         }
         else {
-            String message = "La contraseña debe tener al menos 7 caractéres.";
+            String message = "La contraseña debe tener al menos 7 caracteres.";
             component.requestFocus();
             component.setError(message);
             return new Validation(false, message);

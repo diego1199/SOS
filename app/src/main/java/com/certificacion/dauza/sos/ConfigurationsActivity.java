@@ -30,5 +30,12 @@ public class ConfigurationsActivity extends AppCompatActivity {
     private android.support.v7.widget.SwitchCompat sendSmsSwitch;
     private android.support.v7.widget.SwitchCompat notificationsSwitch;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_configurations);
+    }
+
+
 
 }

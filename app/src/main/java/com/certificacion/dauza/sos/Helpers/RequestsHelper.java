@@ -15,11 +15,10 @@ import com.bumptech.glide.Glide;
 import com.certificacion.dauza.sos.R;
 import com.certificacion.dauza.sos.Models.EmergencyServiceRequest;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.xml.soap.Text;
+
 
 public class RequestsHelper extends RecyclerView.Adapter<RequestsHelper.ViewHolder> {
 //
