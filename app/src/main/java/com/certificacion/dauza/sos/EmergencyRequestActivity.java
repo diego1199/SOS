@@ -86,9 +86,9 @@ public class EmergencyRequestActivity extends AppCompatActivity {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             medicalRedcordId = sharedPref.getString(MEDICAL_RECORD_ID_SP_KEY, null);
         }
-
+        long date = System.currentTimeMillis();
         CollectionReference requests = db.collection("requests");
-        EmergencyServiceRequest newRequest = new EmergencyServiceRequest(serviceType, latitude, longitude, userId, medicalRedcordId, sameAsCurrentUser, comments);
+        EmergencyServiceRequest newRequest = new EmergencyServiceRequest(serviceType, latitude, longitude, userId, medicalRedcordId, sameAsCurrentUser, comments, date);
         requests.add(newRequest)
         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override

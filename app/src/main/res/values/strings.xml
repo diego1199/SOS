@@ -53,6 +53,11 @@
         <item>O-</item>
     </string-array>
 
+
+    <string name="call_contacts"> Llamar a contactos </string>
+    <string name="send_sms"> Enviar SMS </string>
+    <string name="notifications"> Notificaciones </string>
+
     <string-array name="tipos_de_servicio">
         <item>Ambulancia</item>
         <item>Policia</item>
