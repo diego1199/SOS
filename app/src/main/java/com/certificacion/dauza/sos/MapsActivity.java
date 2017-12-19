@@ -197,6 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             else {
                 FirebaseMessaging.getInstance().subscribeToTopic(firebaseUser.getUid());
+                Log.e(TAG, firebaseUser.getUid());
             }
         }
     }

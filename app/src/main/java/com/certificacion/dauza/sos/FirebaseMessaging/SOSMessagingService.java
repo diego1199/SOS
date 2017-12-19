@@ -22,6 +22,7 @@ public class SOSMessagingService extends FirebaseMessagingService {
         String titulo = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
         Log.e(TAG, messageId + " - " + titulo + " - " + message);
+        UserInterfaceHelper.showSuccessAlert(getApplicationContext(), titulo, message);
     }
 
 }
