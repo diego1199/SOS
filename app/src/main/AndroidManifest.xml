@@ -47,6 +47,8 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".EmergencyRequestActivity" />
         <activity android:name=".EmergencyContactsActivity"/>
+        <activity android:name=".ConfigurationsActivity"/>
+        <activity android:name=".ServiceHistoryActivity"/>
     </application>
 
 </manifest>
